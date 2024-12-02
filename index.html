@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Renderer</title>
+    <!-- Load Marked.js directly from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        #content {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Markdown Viewer</h1>
+    <div id="content">Loading content...</div>
+    <script>
+        // Path to the Markdown file
+        const mdFilePath = 'pages/1_main/test.md';
+
+        // Fetch and render the Markdown content
+        fetch(mdFilePath)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch ${mdFilePath}: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then((markdown) => {
+                // Convert Markdown to HTML using marked.js
+                document.getElementById('content').innerHTML = marked.parse(markdown);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.getElementById('content').textContent = 'Failed to load content.';
+            });
+    </script>
+</body>
+</html>
